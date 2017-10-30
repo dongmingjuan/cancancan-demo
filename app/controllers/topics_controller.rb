@@ -1,12 +1,24 @@
 class TopicsController < ApplicationController
+  before_action :authenticate_user!
+  load_and_authorize_resource
   def index
     @topics = Topic.all
   end
   def new
-    @topic = Topic.new
+  
+  end
+  def edit
+  end
+  def update
+    if @topic.update(topic_params)
+      redirect_to topics_path
+    else
+      render :edit
+    end
   end
   def create
-    @topic = Topic.new(topic_params)
+
+    @topic.user = current_user
     if @topic.save
       redirect_to topics_path
     else
@@ -14,10 +26,10 @@ class TopicsController < ApplicationController
     end
   end
   def show
-    @topic = Topic.find(params[:id])
+
   end
   def destroy
-    @topic = Topic.find(params[:id])
+
     @topic.destroy
     redirect_to topics_path
   end

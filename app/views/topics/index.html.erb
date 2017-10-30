@@ -1,0 +1,32 @@
+<div class="col-md-12">
+  <div class="new group">
+     <%= link_to("new topic", new_topic_path, class: "pull-right")%>
+  </div>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Writer</th>
+        <th></th>
+        <th></th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <% @topics.each do |topic| %>
+      <tr>
+        <td><%= link_to(topic.title, topic_path(topic)) %></td>
+        <td><%= topic.description %></td>
+        <td><%= topic.user.email %></td>
+
+          <td><%= link_to("edit", edit_topic_path(topic))%></td>
+  
+        <% if can? :destroy, @topic  %>
+         <td><%= link_to("destroy", topic_path(topic), method: :delete)%></td>
+        <% end %>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
